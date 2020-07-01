@@ -128,13 +128,7 @@ void Board::UndoMove()
 
 PerftResult Board::Perft(int depth, bool debug)
 {
-    auto moves = LegalMoves();
-
-    cout << GenerateFen() << " " << "wb"[turn] << "|";
-    for (auto move : moves) {
-        cout << " " << GetRef(move.initial) << GetRef(move.target);
-    }
-    cout << endl;
+    auto moves = generatePseudoMoves();
 
     int nodes = 0;
 
@@ -146,7 +140,8 @@ PerftResult Board::Perft(int depth, bool debug)
         return result;
     }
 
-    for (auto move : moves) {
+	for (int i = 0; i < moves.count; ++i) {
+		auto move = moves.moves[i];
         if (move.type == "attack")
             result.captures++;
 
@@ -155,7 +150,6 @@ PerftResult Board::Perft(int depth, bool debug)
 
         if (kingAttacked()) {
             result.checks++;
-            // cout << GenerateFen() << " " << "wb"[turn] << endl;
         }
 
         result.nodes += res.nodes;
@@ -252,3 +246,4 @@ void Board::SetFen(string fen)
 
     turn = fenTurn[1] == 'b' ? Black : White;
 }
+

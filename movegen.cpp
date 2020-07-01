@@ -7,6 +7,19 @@
 
 using namespace std;
 
+std::unordered_map<int, std::vector<int>> PieceMovements = {
+	{WhiteKnight, {N+N+E, E+E+N, S+S+E, W+W+S, S+E+E, S+S+W, N+N+W, N+W+W }},
+	{WhiteQueen,  {N, W, N+W, S+W, S, E, E+S, N+E }},
+	{WhiteRook,   {N, E, S, W}},
+	{WhiteKing,   {N, W, N+W, S+W, S, E, E+S, N+E }},
+	{WhiteBishop, {N+E, E+S, S+W, W+N }},
+	{BlackKnight, {N+N+E, E+ E+N, S+S+E, W+W+S, S+E+E, S+S+W, N+N+W, N+W+W }},
+	{BlackQueen,  {N, W, N+W, S+W, S, E, E+S, N+E }},
+	{BlackRook,   {N, E, S, W}},
+	{BlackKing,   {N, W, N+W, S+W, S, E, E+S, N+E }},
+	{BlackBishop, {N+ E, E+S, S+W, W+N }}
+};
+
 vector<Move> Board::PseudoCaptures()
 {
     vector<Move> moves;
@@ -148,3 +161,66 @@ vector<Move> Board::PseudoMoves()
     }
     return moves;
 }
+
+MoveList Board::generatePseudoMoves() {
+	MoveList moves;
+
+    for (int pos = 0; pos < 128; ++pos) {
+        int piece = squares[pos];
+
+        if ((pos & 0x88) != 0 || piece == Empty)
+            continue;
+        if (GetColor(piece) != turn)
+            continue;
+
+        if (piece == WhitePawn || piece == BlackPawn) {
+            vector<int> possible;
+            int start_row = turn == White ? 6 : 1;
+            if (turn == White) {
+                possible = { pos + N, pos + N + N, pos + N + E, pos + N + W };
+            } else {
+                possible = { pos + S, pos + S + S, pos + S + E, pos + S + W };
+            }
+
+            if (squares[possible[0]] == Empty) {
+                moves.moves[moves.count] = { pos, possible[0], squares[pos], squares[possible[0]], "quiet" };
+				moves.count++;
+                if (squares[possible[1]] == Empty && floor(pos / 16) == start_row) {
+					moves.moves[moves.count] = {pos, possible[1], squares[pos], squares[possible[1]], "quiet"};
+					moves.count++;
+                }
+            }
+
+            for (auto dest : { possible[2], possible[3] }) {
+                if (GetColor(squares[dest]) != None) {
+                    if (GetColor(squares[dest]) != turn && squares[dest] != 14) {
+						moves.moves[moves.count] = {pos, dest, squares[pos], squares[dest], "attack"};
+						moves.count++;
+                    }
+                }
+            }
+        } else {
+
+            for (int possibleMove : PieceMovements[piece]) {
+                int index = pos;
+                for (;;) {
+                    index += possibleMove;
+                    if ((index & 0x88) != 0) break;
+
+					if (GetColor(squares[index]) == turn)
+						break;
+
+					moves.moves[moves.count] = {pos, index, squares[pos], squares[index], squares[index] == Empty ? "quiet" : "attack"};
+					moves.count++;
+
+                    if (piece == WhiteKing || piece == WhiteKnight || piece == BlackKnight || piece == BlackKing)
+                        break;
+                    if (squares[index] != Empty)
+                        break;
+                }
+            }
+        }
+    }
+	return moves;
+}
+

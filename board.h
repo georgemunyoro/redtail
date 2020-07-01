@@ -6,11 +6,6 @@
 
 using namespace std;
 
-const int N = -16;
-const int E = 1;
-const int S = 16;
-const int W = -1;
-
 class Board {
 private:
     Move BestStaticMove();
@@ -63,6 +58,8 @@ public:
 
     vector<Move> AllPseudoMoves();
     vector<Move> LegalMoves();
+
+	MoveList generatePseudoMoves();
 };
 
 string GetRef(int pos);

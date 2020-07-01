@@ -2,9 +2,15 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 std::vector<std::string> split(const std::string& text, char sep);
 int GetColor(int piece);
+
+const int N = -16;
+const int E = 1;
+const int S = 16;
+const int W = -1;
 
 struct Move {
     int initial;
@@ -51,3 +57,4 @@ enum {
     BlackKing,
     Empty
 };
+
