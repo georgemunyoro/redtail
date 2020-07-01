@@ -2,64 +2,63 @@
 
 #include "defs.h"
 #include <string>
-#include <vector>
 
 using namespace std;
 
 class Board {
-private:
-    Move BestStaticMove();
-    void ClearBoard();
-    void switchTurn();
+    private:
+	Move BestStaticMove();
+	void ClearBoard();
+	void switchTurn();
 
-    string uci(Move move);
+	string uci(Move move);
 
-    Move moveHistory[1024];
-    int historyIndex = 0;
+	int moveHistory[1024];
 
-    int half;
-    int ply;
+	int historyIndex = 0;
 
-    string PIECE_CHAR_MAP = "PNBRQKpnbrqk. *";
-    string castling;
-    string enPas;
+	int half;
+	int ply;
 
-    int AlphaBeta(int alpha, int beta, int depth);
-    int Quiesce(int alpha, int beta);
+	string PIECE_CHAR_MAP = "PNBRQKpnbrqk. *";
+	string castling;
+	string enPas;
 
-public:
-    Board();
-    ~Board();
+	int AlphaBeta(int alpha, int beta, int depth);
+	int Quiesce(int alpha, int beta);
 
-    Move BestMove(int depth);
+    public:
+	Board();
+	~Board();
 
-    MoveList PseudoMovesB();
+	Move BestMove(int depth);
 
-    int GetBoardScore();
+	int GetBoardScore();
 
-    vector<Move> PseudoCaptures();
-    vector<Move> PseudoMoves();
+	MoveList PseudoCaptures();
 
-    int turn;
-    void SetFen(string fen);
-    void Draw();
-    void MakeMove(Move move);
-    void UndoMove();
+	int turn;
+	void SetFen(string fen);
+	void Draw();
 
-    Move RandomMove();
+	void MakeMove(int move);
+	void UndoMove();
 
-    int squares[128];
+	Move RandomMove();
 
-    PerftResult Perft(int depth, bool debug);
+	int squares[128];
 
-    string GenerateFen();
+	PerftResult Perft(int depth, bool debug);
 
-    bool kingAttacked();
+	string GenerateFen();
 
-    vector<Move> AllPseudoMoves();
-    vector<Move> LegalMoves();
+	bool kingAttacked();
+
+	MoveList LegalMoves();
 
 	MoveList generatePseudoMoves();
+
+	bool isSquareAttacked(int square);
 };
 
 string GetRef(int pos);

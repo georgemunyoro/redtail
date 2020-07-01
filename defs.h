@@ -21,7 +21,7 @@ struct Move {
 };
 
 struct MoveList {
-    Move moves[256];
+    int moves[256];
     int count = 0;
 };
 

@@ -1,5 +1,5 @@
 all:
-	c++ -O3 uci.cpp movegen.cpp board.cpp evaluate.cpp -o engine
+	c++ -Ofast -std=c++17 uci.cpp movegen.cpp board.cpp evaluate.cpp -o engine
 
 test:
-	c++ -O3 test.cpp movegen.cpp board.cpp -o tes
+	c++ -Ofast -std=c++17 test.cpp movegen.cpp board.cpp -o tes

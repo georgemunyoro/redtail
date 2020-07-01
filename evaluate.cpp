@@ -52,16 +52,17 @@ int Board::GetBoardScore()
 
 Move Board::RandomMove()
 {
-    auto possibleMoves = LegalMoves();
-    return possibleMoves[rand() % possibleMoves.size()];
+    auto possibleMoves = generatePseudoMoves();
+    return possibleMoves.moves[rand() % possibleMoves.count];
 }
 
 Move Board::BestStaticMove()
 {
-    auto moves = LegalMoves();
+    MoveList moves = generatePseudoMoves();
     int best_score = -100000;
-    Move best_move;
-    for (auto move : moves) {
+    int best_move;
+    for (int i = 0; i < moves.count; ++i) {
+	int move = moves.moves[i];
         MakeMove(move);
         int moveScore = GetBoardScore();
         if (turn == Black)
@@ -76,9 +77,9 @@ Move Board::BestStaticMove()
 
 Move Board::BestMove(int depth)
 {
-    vector<Move> best_moves;
+    MoveList best_moves;
     int best_score = -100000;
-    auto moves = LegalMoves();
+    auto moves = generatePseudoMoves();
     int alpha = -100000;
     int beta = 100000;
     for (auto move : moves) {

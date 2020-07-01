@@ -33,6 +33,6 @@ void RunPerft(int maxDepth, int debug)
 
 int main()
 {
-	RunPerft(5, false);
+	RunPerft(6, false);
 	return 0;
 }
