@@ -25,12 +25,12 @@ std::vector<std::string> split(const std::string &text, char sep)
 
 int GetColor(int piece)
 {
-	if (piece == Empty)
-		return -1;
 	if (piece < 6)
 		return White;
 	else if (piece > 5)
 		return Black;
+
+	return -1;
 }
 
 string GetRef(int pos)
