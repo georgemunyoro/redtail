@@ -5,13 +5,14 @@
 
 using namespace std;
 
-class Board {
-    private:
-	Move BestStaticMove();
+class Board
+{
+private:
+	int BestStaticMove();
 	void ClearBoard();
 	void switchTurn();
 
-	string uci(Move move);
+	string uci(int move);
 
 	int moveHistory[1024];
 
@@ -27,11 +28,19 @@ class Board {
 	int AlphaBeta(int alpha, int beta, int depth);
 	int Quiesce(int alpha, int beta);
 
-    public:
+	void filterPseudoMoves(MoveList *moves);
+
+public:
+	void PerftTest(int depth, bool debug);
 	Board();
 	~Board();
 
-	Move BestMove(int depth);
+	MoveList newMoveGen();
+
+	int WhiteKingPosition;
+	int BlackKingPosition;
+
+	int BestMove(int depth);
 
 	int GetBoardScore();
 
@@ -44,7 +53,7 @@ class Board {
 	void MakeMove(int move);
 	void UndoMove();
 
-	Move RandomMove();
+	int RandomMove();
 
 	int squares[128];
 
@@ -58,7 +67,7 @@ class Board {
 
 	MoveList generatePseudoMoves();
 
-	bool isSquareAttacked(int square);
+	bool isSquareAttacked(int pos, int color);
 };
 
 string GetRef(int pos);
