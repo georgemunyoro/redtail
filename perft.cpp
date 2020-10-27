@@ -12,8 +12,7 @@ void Board::PerftTest(int depth, bool debug)
 	int leafNodes = 0;
 
 	MoveList moves = LegalMoves();
-	>
-		for (int i = 0; i < moves.count; ++i)
+	for (int i = 0; i < moves.count; ++i)
 	{
 		int currentMove = moves.moves[i];
 		MakeMove(moves.moves[i]);
@@ -42,14 +41,7 @@ PerftResult Board::Perft(int depth, bool debug)
 		result.nodes++;
 		return result;
 	}
-	//
-	//    cout << GenerateFen() << " " << "wb"[turn] << " ";
-	//
-	//    for (int i = 0; i < moves.count; ++i) {
-	//	cout << GetRef((moves.moves[i] >> 20) & 0xff) << GetRef((moves.moves[i] >> 12) & 0xff) << " ";
-	//    }
-	//    cout << endl;
-	//
+
 	for (int i = 0; i < moves.count; ++i)
 	{
 		if (moves.moves[i] == 0)
@@ -77,42 +69,39 @@ PerftResult Board::Perft(int depth, bool debug)
 	return result;
 }
 
-//
-//void RunPerft(int maxDepth, int debug)
-//{
-//  Board MainBoard = Board();
-//  MainBoard.SetFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-//  printf("---------------------------------------------------------------------"
-//	  "----------------\n");
-//  printf("| DEPTH |   NODE   |  CAPTURES | ENPAS | CASTLES | PROMOTIONS | "
-//	  "CHECKMATES | CHECKS |\n");
-//  printf("--------+----------+-----------+-------+---------+------------+------"
-//	  "------+---------\n");
-//  for (int i = 1; i < maxDepth; ++i) {
-//	auto res = MainBoard.Perft(i, debug);
-//	printf("|%7d|%10d|%11d|%7d|%9d|%12d|%12d|%8d|\n",
-//		res.depth,
-//		res.nodes,
-//		res.captures,
-//		res.enPas,
-//		res.castles,
-//		res.promotions,
-//		res.checkmates,
-//		res.checks);
-//  }
-//  printf("---------------------------------------------------------------------"
-//	  "----------------\n");
-//}
-//
+void RunPerft(int maxDepth, int debug)
+{
+	Board MainBoard = Board();
+	MainBoard.SetFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+	printf("---------------------------------------------------------------------"
+		   "----------------\n");
+	printf("| DEPTH |   NODE   |  CAPTURES | ENPAS | CASTLES | PROMOTIONS | "
+		   "CHECKMATES | CHECKS |\n");
+	printf("--------+----------+-----------+-------+---------+------------+------"
+		   "------+---------\n");
+	for (int i = 1; i < maxDepth; ++i)
+	{
+		auto res = MainBoard.Perft(i, debug);
+		printf("|%7d|%10d|%11d|%7d|%9d|%12d|%12d|%8d|\n",
+			   res.depth,
+			   res.nodes,
+			   res.captures,
+			   res.enPas,
+			   res.castles,
+			   res.promotions,
+			   res.checkmates,
+			   res.checks);
+	}
+	printf("---------------------------------------------------------------------"
+		   "----------------\n");
+}
 
 int main(int argc, char *argv[])
 {
-	//    freopen("perft_moves.txt", "w", stdout);
 	if (argc >= 2)
 	{
 		Board MainBoard = Board();
 		MainBoard.SetFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-		//	MainBoard.SetFen("rnbqkbnr/ppp1pppp/8/3p4/2P5/8/PP1PPPPP/RNBQKBNR w - - 0 1");
 		MainBoard.PerftTest(stoi(argv[1]), false);
 	}
 
