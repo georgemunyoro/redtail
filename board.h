@@ -5,69 +5,68 @@
 
 using namespace std;
 
-class Board
-{
+class Board {
 private:
-    int BestStaticMove();
-    void ClearBoard();
-    void switchTurn();
+  int BestStaticMove();
+  void ClearBoard();
+  void switchTurn();
 
-    string uci(int move);
+  string uci(int move);
 
-    int moveHistory[1024];
+  int moveHistory[1024];
 
-    int historyIndex = 0;
+  int historyIndex = 0;
 
-    int half;
-    int ply;
+  int half;
+  int ply;
 
-    string PIECE_CHAR_MAP = "PNBRQKpnbrqk. *";
-    string castling;
-    string enPas;
+  string PIECE_CHAR_MAP = "PNBRQKpnbrqk. *";
+  string castling;
+  string enPas;
 
-    int AlphaBeta(int alpha, int beta, int depth);
-    int Quiesce(int alpha, int beta);
+  int AlphaBeta(int alpha, int beta, int depth);
+  int Quiesce(int alpha, int beta);
 
-    void filterPseudoMoves(MoveList *moves);
+  void filterPseudoMoves(MoveList *moves);
 
 public:
-    void PerftTest(int depth, bool debug);
-    Board();
-    ~Board();
+  void PerftTest(int depth, bool debug);
+  Board();
+  ~Board();
 
-    MoveList newMoveGen();
+  MoveList newMoveGen();
 
-    int WhiteKingPosition;
-    int BlackKingPosition;
+  int WhiteKingPosition;
+  int BlackKingPosition;
 
-    int BestMove(int depth);
+  int BestMove(int depth);
 
-    int GetBoardScore();
+  int GetBoardScore();
 
-    MoveList PseudoCaptures();
+  MoveList PseudoCaptures();
 
-    int turn;
-    void SetFen(string fen);
-    void Draw();
+  int turn;
+  void SetFen(string fen);
+  void Draw();
 
-    void MakeMove(int move);
-    void UndoMove();
+  void MakeMove(int move);
+  void UndoMove();
 
-    int RandomMove();
+  int RandomMove();
 
-    int squares[128];
+  int squares[128];
 
-    PerftResult Perft(int depth, bool debug);
+  PerftResult Perft(int depth, bool debug);
 
-    string GenerateFen();
+  string GenerateFen();
 
-    bool kingAttacked();
+  bool kingAttacked();
 
-    MoveList LegalMoves();
+  MoveList LegalMoves();
 
-    MoveList generatePseudoMoves();
+  MoveList generatePseudoMoves();
 
-    bool isSquareAttacked(int pos, int color);
+  bool isSquareAttacked(int pos, int color);
 };
 
 string GetRef(int pos);
