@@ -25,7 +25,7 @@ struct MoveList
     int count = 0;
 };
 
-typedef struct
+struct PerftResult
 {
     int depth = 0;
     int nodes = 0;
@@ -35,7 +35,7 @@ typedef struct
     int promotions = 0;
     int checks = 0;
     int checkmates = 0;
-} PerftResult;
+};
 
 enum
 {
