@@ -62,7 +62,8 @@ int main()
 
                         MainBoard.MakeMove(currentMoveMove);
                     }
-                } }
+                }
+            }
             else
             {
                 string col, enp, cas;

@@ -13,4 +13,5 @@ std::unordered_map<int, std::vector<int>> PieceMovements = {
     {BlackQueen, {N, W, N + W, S + W, S, E, E + S, N + E}},
     {BlackRook, {N, E, S, W}},
     {BlackKing, {N, W, N + W, S + W, S, E, E + S, N + E}},
-    {BlackBishop, {N + E, E + S, S + W, W + N}}};
+    {BlackBishop, {N + E, E + S, S + W, W + N}}
+};
