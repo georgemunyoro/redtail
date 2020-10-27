@@ -114,7 +114,7 @@ int Board::BestMove(int depth)
 int Board::AlphaBeta(int alpha, int beta, int depth)
 {
     int best_score = -100000;
-    Move best_move;
+    int best_move;
 
     if (depth == 0)
         return Quiesce(alpha, beta);
@@ -165,4 +165,6 @@ int Board::Quiesce(int alpha, int beta)
                 alpha = score;
         }
     }
+
+    return alpha;
 }
