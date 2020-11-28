@@ -151,9 +151,9 @@ void Board::MakeMove(int mov)
 void Board::UndoMove()
 {
 	--historyIndex;
-	int lastMove = moveHistory[historyIndex];
-	squares[(lastMove >> 20) & 0xff] = (lastMove >> 8) & 0xf;
-	squares[(lastMove >> 12) & 0xff] = (lastMove >> 4) & 0xf;
+	int moveLastPlayed = moveHistory[historyIndex];
+	squares[(lastMove >> 20) & 0xff] = (moveLastPlayed >> 8) & 0xf;
+	squares[(lastMove >> 12) & 0xff] = (moveLastPlayed >> 4) & 0xf;
 	switchTurn();
 }
 
