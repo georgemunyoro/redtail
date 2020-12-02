@@ -51,7 +51,7 @@ void Board::ClearBoard()
 	}
 }
 
-bool Board::kingAttacked()
+bool Board::IsKingAttacked()
 {
 	if (turn == Black)
 	{
@@ -78,7 +78,7 @@ MoveList Board::LegalMoves()
 	{
 		int move = pseudoMoves.moves[i];
 		MakeMove(move);
-		if (!kingAttacked())
+		if (!IsKingAttacked())
 		{
 			moves.moves[moves.count] = move;
 			moves.count++;
@@ -104,12 +104,11 @@ void Board::Draw()
 			++index;
 		}
 	}
-	cout << endl;
-	cout << "WB"[turn] << endl;
-	cout << "BLACK CHECK : " << isSquareAttacked(BlackKingPosition, White) << endl;
-	cout << "WHITE CHECK : " << isSquareAttacked(WhiteKingPosition, Black) << endl;
 
-	cout << endl;
+	cout << endl
+		<< "WB"[turn] << endl
+		<< "BLACK CHECK : " << isSquareAttacked(BlackKingPosition, White) << endl
+		<< "WHITE CHECK : " << isSquareAttacked(WhiteKingPosition, Black) << endl << endl;
 }
 
 string Board::GenerateFen()
