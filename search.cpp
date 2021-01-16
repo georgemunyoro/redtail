@@ -15,41 +15,41 @@ int Board::CalculateMaterial() {
   for (int i = 0; i < 128; ++i) {
     if ((i & 0x88) == 0) {
       switch (squares[i]) {
-	case WhitePawn:
+	case Chess::WhitePawn:
 	  WhiteScore += 100;
 	  break;
-	case WhiteKnight:
+	case Chess::WhiteKnight:
 	  WhiteScore += 300;
 	  break;
-	case WhiteBishop:
+	case Chess::WhiteBishop:
 	  WhiteScore += 300;
 	  break;
-	case WhiteRook:
+	case Chess::WhiteRook:
 	  WhiteScore += 500;
 	  break;
-	case WhiteQueen:
+	case Chess::WhiteQueen:
 	  WhiteScore += 900;
 	  break;
-	case WhiteKing:
+	case Chess::WhiteKing:
 	  WhiteScore += 100000;
 	  break;
 
-	case BlackPawn:
+	case Chess::BlackPawn:
 	  BlackScore += 100;
 	  break;
-	case BlackKnight:
+	case Chess::BlackKnight:
 	  BlackScore += 300;
 	  break;
-	case BlackBishop:
+	case Chess::BlackBishop:
 	  BlackScore += 300;
 	  break;
-	case BlackRook:
+	case Chess::BlackRook:
 	  BlackScore += 500;
 	  break;
-	case BlackQueen:
+	case Chess::BlackQueen:
 	  BlackScore += 900;
 	  break;
-	case BlackKing:
+	case Chess::BlackKing:
 	  BlackScore += 100000;
 	  break;
       }
@@ -57,7 +57,7 @@ int Board::CalculateMaterial() {
     }
   }
 
-  if (turn == White) {
+  if (turn == Chess::White) {
     return WhiteScore - BlackScore;
   } else {
     return BlackScore - WhiteScore;
