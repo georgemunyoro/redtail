@@ -1,34 +1,12 @@
+#include "uci.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "board.h"
+#include "chess.h"
 #include "defs.h"
-
-using namespace std;
-
-const string START_POS =
-    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-
-class UCI {
- public:
-  UCI();
-  ~UCI();
-  int loop();
-
- private:
-  void uci();
-  void position();
-  void isReady();
-  void stop();
-  void go();
-  void perft();
-  void score();
-  void listMoves();
-  void handleInput(string comm);
-
-  Board board;
-};
 
 UCI::UCI() {}
 UCI::~UCI() {}
@@ -71,9 +49,9 @@ void UCI::position() {
   std::string position;
   std::cin >> position;
 
-  if (position == "startpos") board.SetFen(START_POS);
+  if (position == "startpos") board.SetFen(Chess::START_POS);
   if (position == "fen") {
-    string pos, color, castling, enPas, ply, halfMoves;
+    std::string pos, color, castling, enPas, ply, halfMoves;
     std::cin >> pos >> color >> castling >> enPas >> ply >> halfMoves;
     std::string fen = pos + " " + color + " " + castling + " " + enPas + " " +
 		      ply + " " + halfMoves;
@@ -89,16 +67,13 @@ void UCI::position() {
       std::vector<std::string> uciMoves = split(restOfLine, ' ');
 
       for (int i = 1; i < uciMoves.size(); ++i) {
-	string currentMove = uciMoves[i];
+	std::string currentMove = uciMoves[i];
 
-	string FILES = "abcdefgh";
-	string RANKS = "12345678";
+	int fromRow = Chess::FILES.find(currentMove[0]);
+	int fromCol = Chess::RANKS.find(currentMove[1]);
 
-	int fromRow = FILES.find(currentMove[0]);
-	int fromCol = RANKS.find(currentMove[1]);
-
-	int targetRow = FILES.find(currentMove[2]);
-	int targetCol = RANKS.find(currentMove[3]);
+	int targetRow = Chess::FILES.find(currentMove[2]);
+	int targetCol = Chess::RANKS.find(currentMove[3]);
 
 	int fromPos = (16 * (7 - fromCol)) + fromRow;
 	int targetPos = (16 * (7 - targetCol)) + targetRow;
@@ -123,6 +98,7 @@ void UCI::handleInput(std::string comm) {
   if (comm == "score") score();
   if (comm == "stop") stop();
 
+  if (comm == "draw") board.Draw();
   if (comm == "perft") perft();
   if (comm == "listmoves") listMoves();
 }
@@ -130,7 +106,7 @@ void UCI::handleInput(std::string comm) {
 int UCI::loop() {
   board = Board();
 
-  board.SetFen(START_POS);
+  board.SetFen(Chess::START_POS);
   std::string comm;
   do {
     std::cin >> comm;
