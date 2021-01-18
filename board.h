@@ -63,6 +63,8 @@ class Board {
   void setKingPositions();
   void ClearBoard();
   void switchTurn();
+  void castle(int castleType);
+  void undoCastleMove(int mov);
 };
 
 std::string GetRef(int pos);
