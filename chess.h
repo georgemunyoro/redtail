@@ -10,5 +10,4 @@ const std::string START_POS =
 const std::string FILES = "abcdefgh";
 const std::string RANKS = "12345678";
 
-}  // namespace Chess
-
+} // namespace Chess

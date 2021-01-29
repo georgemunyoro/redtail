@@ -5,12 +5,12 @@
 #include "defs.h"
 
 class UCI {
- public:
+public:
   UCI();
   ~UCI();
   int loop();
 
- private:
+private:
   void uci();
   void position();
   void isReady();
@@ -23,4 +23,3 @@ class UCI {
 
   Board board;
 };
-
