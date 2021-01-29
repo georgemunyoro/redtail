@@ -11,7 +11,7 @@
 Board::~Board() {}
 Board::Board() {}
 
-std::vector<std::string> split(const std::string& text, char sep) {
+std::vector<std::string> split(const std::string &text, char sep) {
   std::vector<std::string> tokens;
   std::size_t start = 0, end = 0;
   while ((end = text.find(sep, start)) != std::string::npos) {
@@ -23,8 +23,10 @@ std::vector<std::string> split(const std::string& text, char sep) {
 }
 
 int GetColor(int piece) {
-  if (piece == Chess::Empty) return -1;
-  if (piece < 6) return Chess::White;
+  if (piece == Chess::Empty)
+    return -1;
+  if (piece < 6)
+    return Chess::White;
 
   return Chess::Black;
 }
@@ -39,7 +41,8 @@ std::string GetRef(int pos) {
 void Board::ClearBoard() {
   for (int i = 0; i < 128; ++i) {
     squares[i] = 14;
-    if ((i & 0x88) == 0) squares[i] = Chess::Empty;
+    if ((i & 0x88) == 0)
+      squares[i] = Chess::Empty;
   }
 }
 
@@ -100,7 +103,7 @@ void Board::Draw() {
   std::cout << std::endl;
   std::cout << "WB"[turn] << std::endl;
   std::cout << GetRef(BlackKingPosition)
-    << " WHITE : " << GetRef(WhiteKingPosition) << std::endl;
+            << " WHITE : " << GetRef(WhiteKingPosition) << std::endl;
   turn = Chess::Black;
   std::cout << "BLACK CHECK : " << kingAttacked() << std::endl;
   turn = Chess::White;
@@ -144,65 +147,64 @@ void Board::Draw() {
 }
 
 void Board::undoCastleMove(int mov) {
-  switch((mov >> 4) & 0xf) {
-    case 8: // Kingside White
-      squares[117] = Chess::Empty;
-      squares[118] = Chess::Empty;
-      squares[119] = Chess::WhiteRook;
-      squares[116] = Chess::WhiteKing;
-      break;
-    case 4: // Queenside White
-      squares[114] = Chess::Empty;
-      squares[113] = Chess::Empty;
-      squares[116] = Chess::WhiteKing;
-      squares[115] = Chess::Empty;
-      squares[112] = Chess::WhiteRook;
-      break;
-    case 2: // Kingside Black
-      squares[5] = Chess::Empty;
-      squares[6] = Chess::Empty;
-      squares[7] = Chess::BlackRook;
-      squares[4] = Chess::BlackKing;
-      break;
-    case 1: // Queenside Black
-      squares[2] = Chess::Empty;
-      squares[1] = Chess::Empty;
-      squares[0] = Chess::BlackRook;
-      squares[3] = Chess::Empty;
-      squares[4] = Chess::BlackKing;
-      break;
+  switch ((mov >> 4) & 0xf) {
+  case 8: // Kingside White
+    squares[117] = Chess::Empty;
+    squares[118] = Chess::Empty;
+    squares[119] = Chess::WhiteRook;
+    squares[116] = Chess::WhiteKing;
+    break;
+  case 4: // Queenside White
+    squares[114] = Chess::Empty;
+    squares[113] = Chess::Empty;
+    squares[116] = Chess::WhiteKing;
+    squares[115] = Chess::Empty;
+    squares[112] = Chess::WhiteRook;
+    break;
+  case 2: // Kingside Black
+    squares[5] = Chess::Empty;
+    squares[6] = Chess::Empty;
+    squares[7] = Chess::BlackRook;
+    squares[4] = Chess::BlackKing;
+    break;
+  case 1: // Queenside Black
+    squares[2] = Chess::Empty;
+    squares[1] = Chess::Empty;
+    squares[0] = Chess::BlackRook;
+    squares[3] = Chess::Empty;
+    squares[4] = Chess::BlackKing;
+    break;
   }
-
 }
 
 void Board::castle(int castleType) {
-  switch(castleType) {
-    case 8: // Kingside White
-      squares[117] = Chess::WhiteRook;
-      squares[118] = Chess::WhiteKing;
-      squares[119] = Chess::Empty;
-      squares[116] = Chess::Empty;
-      break;
-    case 4: // Queenside White
-      squares[114] = Chess::WhiteRook;
-      squares[113] = Chess::WhiteKing;
-      squares[116] = Chess::Empty;
-      squares[115] = Chess::Empty;
-      squares[112] = Chess::Empty;
-      break;
-    case 2: // Kingside Black
-      squares[5] = Chess::BlackRook;
-      squares[6] = Chess::BlackKing;
-      squares[7] = Chess::Empty;
-      squares[4] = Chess::Empty;
-      break;
-    case 1: // Queenside Black
-      squares[2] = Chess::BlackRook;
-      squares[1] = Chess::BlackKing;
-      squares[0] = Chess::Empty;
-      squares[3] = Chess::Empty;
-      squares[4] = Chess::Empty;
-      break;
+  switch (castleType) {
+  case 8: // Kingside White
+    squares[117] = Chess::WhiteRook;
+    squares[118] = Chess::WhiteKing;
+    squares[119] = Chess::Empty;
+    squares[116] = Chess::Empty;
+    break;
+  case 4: // Queenside White
+    squares[114] = Chess::WhiteRook;
+    squares[113] = Chess::WhiteKing;
+    squares[116] = Chess::Empty;
+    squares[115] = Chess::Empty;
+    squares[112] = Chess::Empty;
+    break;
+  case 2: // Kingside Black
+    squares[5] = Chess::BlackRook;
+    squares[6] = Chess::BlackKing;
+    squares[7] = Chess::Empty;
+    squares[4] = Chess::Empty;
+    break;
+  case 1: // Queenside Black
+    squares[2] = Chess::BlackRook;
+    squares[1] = Chess::BlackKing;
+    squares[0] = Chess::Empty;
+    squares[3] = Chess::Empty;
+    squares[4] = Chess::Empty;
+    break;
   }
 }
 
@@ -277,70 +279,70 @@ void Board::SetFen(std::string fen) {
   int index = 0;
   for (char piece : position) {
     switch (piece) {
-      case 'R':
-        squares[index] = Chess::WhiteRook;
-        break;
-      case 'N':
-        squares[index] = Chess::WhiteKnight;
-        break;
-      case 'B':
-        squares[index] = Chess::WhiteBishop;
-        break;
-      case 'Q':
-        squares[index] = Chess::WhiteQueen;
-        break;
-      case 'K':
-        squares[index] = Chess::WhiteKing;
-        WhiteKingPosition = index;
-        break;
-      case 'P':
-        squares[index] = Chess::WhitePawn;
-        break;
+    case 'R':
+      squares[index] = Chess::WhiteRook;
+      break;
+    case 'N':
+      squares[index] = Chess::WhiteKnight;
+      break;
+    case 'B':
+      squares[index] = Chess::WhiteBishop;
+      break;
+    case 'Q':
+      squares[index] = Chess::WhiteQueen;
+      break;
+    case 'K':
+      squares[index] = Chess::WhiteKing;
+      WhiteKingPosition = index;
+      break;
+    case 'P':
+      squares[index] = Chess::WhitePawn;
+      break;
 
-      case 'r':
-        squares[index] = Chess::BlackRook;
-        break;
-      case 'n':
-        squares[index] = Chess::BlackKnight;
-        break;
-      case 'b':
-        squares[index] = Chess::BlackBishop;
-        break;
-      case 'q':
-        squares[index] = Chess::BlackQueen;
-        break;
-      case 'k':
-        squares[index] = Chess::BlackKing;
-        BlackKingPosition = index;
-        break;
-      case 'p':
-        squares[index] = Chess::BlackPawn;
-        break;
+    case 'r':
+      squares[index] = Chess::BlackRook;
+      break;
+    case 'n':
+      squares[index] = Chess::BlackKnight;
+      break;
+    case 'b':
+      squares[index] = Chess::BlackBishop;
+      break;
+    case 'q':
+      squares[index] = Chess::BlackQueen;
+      break;
+    case 'k':
+      squares[index] = Chess::BlackKing;
+      BlackKingPosition = index;
+      break;
+    case 'p':
+      squares[index] = Chess::BlackPawn;
+      break;
 
-      case '/':
-        index += 7;
-        break;
-      case '2':
-        ++index;
-        break;
-      case '3':
-        index += 2;
-        break;
-      case '4':
-        index += 3;
-        break;
-      case '5':
-        index += 4;
-        break;
-      case '6':
-        index += 5;
-        break;
-      case '7':
-        index += 6;
-        break;
-      case '8':
-        index += 7;
-        break;
+    case '/':
+      index += 7;
+      break;
+    case '2':
+      ++index;
+      break;
+    case '3':
+      index += 2;
+      break;
+    case '4':
+      index += 3;
+      break;
+    case '5':
+      index += 4;
+      break;
+    case '6':
+      index += 5;
+      break;
+    case '7':
+      index += 6;
+      break;
+    case '8':
+      index += 7;
+      break;
     }
     ++index;
   }
@@ -353,10 +355,14 @@ void Board::SetFen(std::string fen) {
   std::string fenPly = splitFen[5];
 
   for (int i = 0; i < fenCastling.size(); ++i) {
-    if (fenCastling[i] == 'K') castling |= 8;
-    if (fenCastling[i] == 'Q') castling |= 4;
-    if (fenCastling[i] == 'k') castling |= 2;
-    if (fenCastling[i] == 'q') castling |= 1;
+    if (fenCastling[i] == 'K')
+      castling |= 8;
+    if (fenCastling[i] == 'Q')
+      castling |= 4;
+    if (fenCastling[i] == 'k')
+      castling |= 2;
+    if (fenCastling[i] == 'q')
+      castling |= 1;
   }
 
   turn = fenTurn == "b" ? Chess::Black : Chess::White;
@@ -375,8 +381,8 @@ void Board::PerftTest(int depth, bool debug) {
     auto perft_res = Perft(depth - 1, debug);
     leafNodes += perft_res.nodes;
     std::cout << GetRef((currentMove >> 24) & 0xff)
-      << GetRef((currentMove >> 16) & 0xff) << ": " << perft_res.nodes
-      << " " << generatePositionKey() << std::endl;
+              << GetRef((currentMove >> 16) & 0xff) << ": " << perft_res.nodes
+              << " " << generatePositionKey() << std::endl;
     UndoMove();
   }
 
@@ -405,25 +411,28 @@ PerftResult Board::Perft(int depth, bool debug) {
 
   if (debug) {
     std::cout << GenerateFen() << " "
-      << "wb"[turn] << " ";
+              << "wb"[turn] << " ";
 
     for (int i = 0; i < moves.count; ++i) {
       std::cout << GetRef((moves.moves[i] >> 24) & 0xff)
-        << GetRef((moves.moves[i] >> 16) & 0xff) << " ";
+                << GetRef((moves.moves[i] >> 16) & 0xff) << " ";
     }
     std::cout << std::endl;
   }
 
   for (int i = 0; i < moves.count; ++i) {
-    if (moves.moves[i] == 0) continue;
+    if (moves.moves[i] == 0)
+      continue;
     auto move = moves.moves[i];
 
-    if ((move & 0xf) == 1) result.captures++;
+    if ((move & 0xf) == 1)
+      result.captures++;
 
     MakeMove(move);
     auto res = Perft(depth - 1, debug);
 
-    if (kingAttacked()) result.checks++;
+    if (kingAttacked())
+      result.checks++;
 
     result.nodes += res.nodes;
     result.captures += res.captures;
@@ -448,4 +457,3 @@ unsigned long long Board::generatePositionKey() {
   key = (key << 1) | turn;
   return key;
 }
-

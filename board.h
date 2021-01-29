@@ -12,7 +12,7 @@ struct TranspositionEntry {
 };
 
 class Board {
- public:
+public:
   std::unordered_map<int, TranspositionEntry> transposition_table;
   int WhiteKingPosition;
   int BlackKingPosition;
@@ -26,12 +26,12 @@ class Board {
   int Quiesce(int alpha, int beta);
   unsigned long long generatePositionKey();
   void PerftTest(int depth, bool debug);
-  int AlphaBeta(int alpha, int beta, int depth, std::vector<int>& PV);
+  int AlphaBeta(int alpha, int beta, int depth, std::vector<int> &PV);
   int BestStaticMove();
   void Search();
   MoveList newMoveGen();
   MoveList getOrderedMoves();
-  std::vector<int> BestMove(int depth, std::vector<int>& PV);
+  std::vector<int> BestMove(int depth, std::vector<int> &PV);
   int GetBoardScore();
   MoveList PseudoCaptures();
   void SetFen(std::string fen);
@@ -47,7 +47,7 @@ class Board {
   bool isSquareAttacked(int pos, int color);
   int pvSearch(int depth, int alpha, int beta);
 
- private:
+private:
   int seedKey = getTime();
   int moveHistory[1024];
   int historyIndex = 0;
@@ -59,7 +59,7 @@ class Board {
 
   std::string PIECE_CHAR_MAP = "PNBRQKpnbrqk. *";
   std::string uci(int move);
-  void filterPseudoMoves(MoveList* moves);
+  void filterPseudoMoves(MoveList *moves);
   void setKingPositions();
   void ClearBoard();
   void switchTurn();
@@ -68,4 +68,3 @@ class Board {
 };
 
 std::string GetRef(int pos);
-

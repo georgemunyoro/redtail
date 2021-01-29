@@ -15,43 +15,43 @@ int Board::CalculateMaterial() {
   for (int i = 0; i < 128; ++i) {
     if ((i & 0x88) == 0) {
       switch (squares[i]) {
-	case Chess::WhitePawn:
-	  WhiteScore += 100;
-	  break;
-	case Chess::WhiteKnight:
-	  WhiteScore += 300;
-	  break;
-	case Chess::WhiteBishop:
-	  WhiteScore += 300;
-	  break;
-	case Chess::WhiteRook:
-	  WhiteScore += 500;
-	  break;
-	case Chess::WhiteQueen:
-	  WhiteScore += 900;
-	  break;
-	case Chess::WhiteKing:
-	  WhiteScore += 100000;
-	  break;
+      case Chess::WhitePawn:
+        WhiteScore += 100;
+        break;
+      case Chess::WhiteKnight:
+        WhiteScore += 300;
+        break;
+      case Chess::WhiteBishop:
+        WhiteScore += 300;
+        break;
+      case Chess::WhiteRook:
+        WhiteScore += 500;
+        break;
+      case Chess::WhiteQueen:
+        WhiteScore += 900;
+        break;
+      case Chess::WhiteKing:
+        WhiteScore += 100000;
+        break;
 
-	case Chess::BlackPawn:
-	  BlackScore += 100;
-	  break;
-	case Chess::BlackKnight:
-	  BlackScore += 300;
-	  break;
-	case Chess::BlackBishop:
-	  BlackScore += 300;
-	  break;
-	case Chess::BlackRook:
-	  BlackScore += 500;
-	  break;
-	case Chess::BlackQueen:
-	  BlackScore += 900;
-	  break;
-	case Chess::BlackKing:
-	  BlackScore += 100000;
-	  break;
+      case Chess::BlackPawn:
+        BlackScore += 100;
+        break;
+      case Chess::BlackKnight:
+        BlackScore += 300;
+        break;
+      case Chess::BlackBishop:
+        BlackScore += 300;
+        break;
+      case Chess::BlackRook:
+        BlackScore += 500;
+        break;
+      case Chess::BlackQueen:
+        BlackScore += 900;
+        break;
+      case Chess::BlackKing:
+        BlackScore += 100000;
+        break;
       }
       index++;
     }
@@ -82,14 +82,14 @@ MoveList Board::getOrderedMoves() {
 
   for (int i = 0; i < moves.count; ++i) {
     orderedMoves.moves[(moveScores[i] & 0xff)] =
-	moves.moves[(moveScores[i] & 0xff)];
+        moves.moves[(moveScores[i] & 0xff)];
   }
 
   orderedMoves.count = moves.count;
   return orderedMoves;
 }
 
-int Board::AlphaBeta(int alpha, int beta, int depth, vector<int>& PV) {
+int Board::AlphaBeta(int alpha, int beta, int depth, vector<int> &PV) {
   int best_score = -100000;
   auto moves = getOrderedMoves();
 
@@ -105,7 +105,8 @@ int Board::AlphaBeta(int alpha, int beta, int depth, vector<int>& PV) {
     int score = -AlphaBeta(-beta, -alpha, depth - 1, localPV);
     UndoMove();
 
-    if (score > best_score) best_score = score;
+    if (score > best_score)
+      best_score = score;
 
     if (best_score > alpha) {
       alpha = best_score;
@@ -114,12 +115,13 @@ int Board::AlphaBeta(int alpha, int beta, int depth, vector<int>& PV) {
       copy(localPV.begin(), localPV.end(), back_inserter(PV));
     }
 
-    if (alpha >= beta) return alpha;
+    if (alpha >= beta)
+      return alpha;
   }
   return best_score;
 }
 
-vector<int> Board::BestMove(int depth, vector<int>& PV) {
+vector<int> Board::BestMove(int depth, vector<int> &PV) {
   int bestmove;
   int bestscore = -100000;
 
@@ -148,17 +150,17 @@ void Board::Search() {
     auto res = BestMove(i, newPV);
     bestmove = res[0];
     cout << "info depth " << i + 1 << " score cp " << res[1] << " time "
-	 << (getTime() - startTime) << " nodes " << lastSearchNodes << " pv "
-	 << printMove(bestmove) << " ";
+         << (getTime() - startTime) << " nodes " << lastSearchNodes << " pv "
+         << printMove(bestmove) << " ";
 
-    for (auto& m : newPV) {
+    for (auto &m : newPV) {
       cout << printMove(m) << " ";
     }
     cout << endl;
     lastSearchNodes = 0;
 
-    if ((getTime() - startTime) > 4000) break;
+    if ((getTime() - startTime) > 4000)
+      break;
   }
   cout << "bestmove " << printMove(bestmove) << endl;
 }
-
