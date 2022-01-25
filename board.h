@@ -61,7 +61,7 @@ public:
 
 	string GenerateFen();
 
-	bool kingAttacked();
+	bool IsKingAttacked();
 
 	MoveList LegalMoves();
 
